@@ -1,6 +1,6 @@
 const   boxes = document.querySelectorAll('.box'),
         gameWindow = document.getElementById('gameWindow');
-let turn = false;
+let turn = 0;
 let currentPlayer = 'X',
     changePlayer = function(){
         (currentPlayer === 'X')?currentPlayer = 'O':currentPlayer ='X';
@@ -50,17 +50,18 @@ boxes.forEach(box => {
         if(this.textContent === ''){
                                 this.textContent = currentPlayer;
                                 const winner = checkWinner(GameBox());
-
                                 if (winner) {
                                     console.log(`Player ${winner} wins!`);
                                     gameWindow.style.display = 'none';
                                     document.getElementById('won').textContent = String(currentPlayer + ' WON!!!')
-                                    turn = turn+1;
-                                    changePlayer();
-                                }else if(turn == 9){document.getElementById('won').textContent = String('DRAW')
-                                draw = true}
-                                
+                                }else if(turn == 8){
+                                    document.getElementById('won').textContent = String('DRAW');
+                                    gameWindow.style.display = 'none';
+                                }
                                 }else{document.getElementById('err').textContent = 'invalid input.';}
+                                
+                                turn = turn+1;
+                                changePlayer();
     });
 });
 
@@ -74,6 +75,7 @@ function resetGame() {
     gameWindow.style.display = 'flex';
     document.getElementById('turn').textContent = String('Turn -> '+currentPlayer);
     document.getElementById('won').textContent = ''
+    turn = 0;
 }
 
 startBtn.addEventListener('click', resetGame);
